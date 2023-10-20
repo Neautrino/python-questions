@@ -1,0 +1,31 @@
+# Given a Roman numeral convert to integer equivalent
+# Leetcode link: https://leetcode.com/problems/roman-to-integer/description/
+
+class Solution:
+    def romanToInt(self, s: str) -> int:
+        # Create a dictionary to map Roman numerals to their integer values
+        translations = {
+            "I": 1,
+            "V": 5,
+            "X": 10,
+            "L": 50,
+            "C": 100,
+            "D": 500,
+            "M": 1000
+        }
+        
+        # Initialize the variable 'number' to store the final integer value
+        number = 0
+        
+        # Replace Roman numeral patterns with their equivalent representations
+        # For example, "IV" is replaced with "IIII", "XC" with "LXXXX", etc.
+        s = s.replace("IV", "IIII").replace("IX", "VIIII")
+        s = s.replace("XL", "XXXX").replace("XC", "LXXXX")
+        s = s.replace("CD", "CCCC").replace("CM", "DCCCC")
+        
+        # Iterate through the modified string and add the integer values of the Roman numerals
+        for char in s:
+            number += translations[char]
+        
+        # Return the final computed integer value
+        return number
