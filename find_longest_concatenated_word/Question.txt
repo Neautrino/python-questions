@@ -1,0 +1,12 @@
+Question:
+
+You are given a list of words. Write a Python function find_longest_concatenated_word(word_list) that finds and returns the longest word that can be formed by concatenating other words from the list. In other words, this word should be made up of at least two other words from the list.
+
+For example, given the list ["cat", "cats", "catsdogcats", "dog", "dogcatsdog", "hippopotamuses", "rat", "ratcatsdogfish"], the function should return "ratcatsdogfish" because it can be formed by concatenating the words "rat", "cats", "dog", and "fish".
+
+If there are multiple longest concatenated words of the same length, return the first one you encounter.
+
+
+Explanation:
+
+To solve this problem, you can use a recursive approach. You'll check each word in the list to see if it can be split into two or more other words from the list. The idea is to keep trying different combinations to see if they form a valid concatenated word.
