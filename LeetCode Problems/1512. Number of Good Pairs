@@ -1,0 +1,9 @@
+from collections import Counter
+class Solution:
+    def numIdenticalPairs(self, nums: List[int]) -> int:
+        #If a number appears n times, n * (n - 1)//2 good pairs can be made with this number
+        frequencies = Counter(nums)
+        good_pairs = 0
+        for num, count in frequencies.items():
+            good_pairs += count * (count - 1)//2
+        return good_pairs
