@@ -1,0 +1,5 @@
+There are many ways to approach the TSP, from exact algorithms like dynamic programming and branch-and-bound to heuristics and metaheuristics 
+like the nearest neighbor algorithm, genetic algorithms, and simulated annealing.
+
+Here, for simplicity's sake, I'll present a solution using the nearest neighbor algorithm. The nearest neighbor algorithm 
+isn't always optimal, but it provides a feasible solution to the problem.
