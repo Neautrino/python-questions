@@ -1,0 +1,93 @@
+class AdaptiveHuffmanNode:
+    def __init__(self, symbol, weight):
+        self.symbol = symbol
+        self.weight = weight
+        self.parent = None
+        self.left = None
+        self.right = None
+
+def adaptive_huffman_encode(input_string):
+    root = AdaptiveHuffmanNode(None, 0)
+    nodes = [root]
+
+    encoded_data = []
+    current_node = root
+
+    for symbol in input_string:
+        if symbol not in nodes:
+            new_node = AdaptiveHuffmanNode(symbol, 1)
+            nodes.append(new_node)
+
+            if current_node.parent:
+                # Swap the new node with its sibling (if necessary)
+                if current_node.weight > new_node.weight:
+                    current_node, new_node = new_node, current_node
+                new_node.parent = current_node.parent
+                if current_node.parent.left == current_node:
+                    current_node.parent.left = new_node
+                else:
+                    current_node.parent.right = new_node
+                current_node.parent = new_node
+                current_node = new_node
+
+            encoded_data.append(bin(current_node.symbol)[2:].zfill(8))
+
+        else:
+            node = nodes[nodes.index(symbol)]
+            encoded_data.append(bin(node.symbol)[2:].zfill(8))
+
+            # Update weights and tree
+            while node != root:
+                node.weight += 1
+                node = node.parent
+
+        # Reorder tree if necessary
+        while current_node.parent and current_node.weight > current_node.parent.weight:
+            parent = current_node.parent
+            if parent.left == current_node:
+                current_node.parent = parent.parent
+                if parent.parent:
+                    if parent.parent.left == parent:
+                        parent.parent.left = current_node
+                    else:
+                        parent.parent.right = current_node
+                else:
+                    root = current_node
+                parent.parent = current_node
+                parent.left = current_node.left
+                if current_node.left:
+                    current_node.left.parent = parent
+                current_node.left = parent
+
+    return ''.join(encoded_data)
+
+def adaptive_huffman_decode(encoded_data):
+    root = AdaptiveHuffmanNode(None, 0)
+    nodes = [root]
+
+    decoded_string = []
+    current_node = root
+
+    for symbol in encoded_data:
+        if symbol == '1':
+            current_node = current_node.right
+        else:
+            current_node = current_node.left
+
+        if current_node.symbol is not None:
+            decoded_string.append(current_node.symbol)
+            nodes.remove(current_node)
+            current_node.weight += 1
+
+            while current_node != root:
+                current_node = current_node.parent
+                current_node.weight += 1
+
+    return ''.join(decoded_string)
+
+# Example usage:
+input_string = "hello, world!"
+encoded_data = adaptive_huffman_encode(input_string)
+decoded_string = adaptive_huffman_decode(encoded_data)
+print("Encoded:", encoded_data)
+print("Decoded:", decoded_string)
